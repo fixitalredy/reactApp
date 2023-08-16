@@ -18,7 +18,7 @@ export default function TaskList(){
     }];
     const elements = data.map((item)=>{
         return (
-            <Task className = {item.className} value = {item.value} date = {formatDistanceToNow(new Date(), { addSuffix: true })} />
+            <Task key = {item.id}className = {item.className} value = {item.value} date = {formatDistanceToNow(new Date(), { addSuffix: true })} />
         )
     })
     return (

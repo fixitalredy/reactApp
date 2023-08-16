@@ -3,7 +3,7 @@ export default function NewTaskForm() {
     <input
       className="new-todo"
       placeholder="What needs to be done?"
-      autofocus=""
+      autoFocus=""
     />
   );
 }
