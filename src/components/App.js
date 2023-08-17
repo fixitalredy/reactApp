@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 import Footer from "./Footer";
@@ -7,31 +7,34 @@ export default function App() {
   let count = 100;
 
   const createTask = (text) => {
-    return{
+    return {
       className: null,
       value: text,
-      id: count++
-    }
-  }
+      id: count++,
+      done:false
+    };
+  };
 
   const [data, setData] = useState([
-    createTask('first'),
-    createTask('second'),
-    createTask('third')
+    createTask("first"),
+    createTask("second"),
+    createTask("third"),
   ]);
   const onDeleted = (id) => {
-    const idx = data.findIndex((el)=> el.id === id)
-    setData(data.toSpliced(idx,1))
-  }
-  const onToggleDone = (id) => {
-    let copy = JSON.stringify(data)
-    let endCopy = JSON.parse(copy)
+    const idx = data.findIndex((el) => el.id === id);
+    setData(data.toSpliced(idx, 1));
+  };
 
-    let idx = data.findIndex((el)=> el.id === id);
-    endCopy[idx].done = !data[idx].done
-    setData(endCopy)
-    //console.log(endCopy[0] == data)
-  }
+  const onToggleDone = (id) => {
+    setData((data) => {
+      const idx = data.findIndex((el) => el.id === id);
+      const oldItem = data[idx];
+      const newItem = {...oldItem, done: !oldItem.done}
+      const endCopy = data.toSpliced(idx, 1, newItem)
+      console.log(endCopy)
+      return endCopy;
+    });
+  };
 
   return (
     <section className="todoapp">
@@ -40,10 +43,12 @@ export default function App() {
         <NewTaskForm />
       </header>
       <section className="main">
-        <TaskList data = {data}
-         onDeleted = {(id)=>onDeleted(id)}
-         onToggleDone = {(id)=>onToggleDone(id)}/>
-        <Footer data = {data} />
+        <TaskList
+          data={data}
+          onDeleted={(id) => onDeleted(id)}
+          onToggleDone={(id) => onToggleDone(id)}
+        />
+        <Footer data={data} />
       </section>
     </section>
   );
