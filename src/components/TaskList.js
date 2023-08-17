@@ -1,24 +1,18 @@
 import Task from "./Task"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-export default function TaskList(){
+export default function TaskList(props){
 
-    const data = [{
-        className: 'completed',
-        value: 'Completed Task',
-        id: 1,
-    },
-    {
-        className: 'editing',
-        value: 'Editing Task',
-        id: 2,
-    },
-    {
-        value: 'Active Task',
-        id: 3,
-    }];
+    const{onDeleted,onToggleDone,data} = props;
+
     const elements = data.map((item)=>{
+        const {id, ...itemProps} = item // className = item.className см. в файле App.js 7стр.
         return (
-            <Task key = {item.id}className = {item.className} value = {item.value} date = {formatDistanceToNow(new Date(), { addSuffix: true })} />
+            <Task {...itemProps} key = {id}  
+             date = {formatDistanceToNow(new Date(), { addSuffix: true })} 
+             data={item} 
+             onDeleted = {()=> onDeleted(id)}
+             onToggleDone = {()=>onToggleDone(id)} />
+             
         )
     })
     return (
