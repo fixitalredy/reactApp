@@ -1,7 +1,7 @@
 import TaskFilter from "./TaskFilter";
 
 export default function Footer(props) {
-  const { data, onChangeHandler,currentFilter }  = props;
+  const { data, onChangeHandler, currentFilter, onClearCompleted }  = props;
   const onCount = (data) => {
     let count = data.filter((el) => !el.done);
     return count.length;
@@ -12,7 +12,7 @@ export default function Footer(props) {
       <TaskFilter data = {data}
                   onChangeHandler = {onChangeHandler}
                   currentFilter={currentFilter} />
-      <button className="clear-completed">Clear completed</button>
+      <button className="clear-completed" onClick = {onClearCompleted}>Clear completed</button>
     </footer>
   );
 }

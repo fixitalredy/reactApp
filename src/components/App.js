@@ -13,13 +13,14 @@ export default function App() {
     setCurrentFilter(filter); 
   };
   const [count, setCount] = useState(100);
+  
 
   const createTask = (text) => {
     return {
-      className: null,
       value: text,
       id: count,
       done: false,
+      editing:false
     };
   };
 
@@ -32,23 +33,27 @@ export default function App() {
     });
   };
 
+  App.defaultProps = {};
+
   const onToggleDone = (id) => {
     setData((p) => {
-      const idx = data.findIndex((el) => el.id === id);
-      const oldItem = data[idx];
+      const idx = p.findIndex((el) => el.id === id);
+      const oldItem = p[idx];
       const newItem = { ...oldItem, done: !oldItem.done };
-      const endCopy = data.toSpliced(idx, 1, newItem);
+      const endCopy = p.toSpliced(idx, 1, newItem);
       //console.log(endCopy)
       return endCopy;
     });
   };
 
   const addItem = (text) => {
-    setCount((prev) => prev + 1);
-    setData((prev) => {
-      console.log(data);
-      return [...prev, createTask(text)];
-    });
+    if(text !== ""){
+      setCount((prev) => prev + 1);
+      setData((prev) => {
+        //console.log(prev);
+        return [...prev, createTask(text)];
+      });
+    }
   };
   
   const filteredTasks = data.filter((el) => {
@@ -60,6 +65,31 @@ export default function App() {
     return true; 
   });
 
+  const onClearCompleted = () => {
+    setData((prev)=>{
+      return prev.filter((el)=> !el.done)
+    })
+  }
+
+  const onToggleEdit = (id) => {
+    setData((p) => {
+      const idx = p.findIndex((el) => el.id === id);
+      const oldItem = p[idx];
+      const newItem = { ...oldItem, editing: !oldItem.editing};
+      const endCopy = p.toSpliced(idx, 1, newItem);
+      //console.log(endCopy)
+      return endCopy;
+    });
+  }
+
+  const onEdit = (newValue,id) => {
+    const idx = data.findIndex((el)=>el.id === id)
+    const oldItem = data[idx]
+    const newItem = {...oldItem, value: newValue, editing: false}
+    const newData = data.toSpliced(idx,1,newItem)
+    setData(newData)
+    console.log(data)
+  }
   return (
     <section className="todoapp">
       <header className="header">
@@ -71,10 +101,13 @@ export default function App() {
           data={filteredTasks}
           onDeleted={(id) => onDeleted(id)}
           onToggleDone={(id) => onToggleDone(id)}
+          onToggleEdit={(id) => onToggleEdit(id)}
+          onEdit={onEdit}
         />
         <Footer data={data} 
                 onChangeHandler = {onChangeHandler}
-                currentFilter={currentFilter} />
+                currentFilter={currentFilter}
+                onClearCompleted={onClearCompleted} />
       </section>
     </section>
   );

@@ -9,7 +9,7 @@ export default function TaskFilter(props) {
   ]
 
   const changeFilterHandler = (event) => {
-    onChangeHandler(event.target.textContent)
+    onChangeHandler(event.currentTarget.textContent)
   }
 
   return (

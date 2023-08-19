@@ -6,7 +6,7 @@ export default function NewTaskForm(props) {
   const [value, setValue] = useState("");
 
   const changeValueHandler = (event) => {
-    setValue(event.target.value);
+    setValue(event.currentTarget.value);
   };
   const submitItem = (event) =>{
     if(event.key === "Enter"){

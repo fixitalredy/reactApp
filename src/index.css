@@ -329,6 +329,9 @@ body {
 	cursor: default;
 }
 
+form {
+	margin-bottom: 0;
+}
 .filters li button {
 	display: inline-block;
 	color: inherit;
