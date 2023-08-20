@@ -27,3 +27,7 @@ export default function NewTaskForm(props) {
     />
   );
 }
+
+NewTaskForm.defaultProps= {
+  onAddItem: () => {}
+}

@@ -1,4 +1,6 @@
 
+import PropTypes from 'prop-types'
+
 export default function TaskFilter(props) {
   const { onChangeHandler, currentFilter } =  props;
   
@@ -9,7 +11,7 @@ export default function TaskFilter(props) {
   ]
 
   const changeFilterHandler = (event) => {
-    onChangeHandler(event.currentTarget.textContent)
+    onChangeHandler(event.target.textContent)
   }
 
   return (
@@ -22,4 +24,11 @@ export default function TaskFilter(props) {
     }
     </ul>
   );
+}
+TaskFilter.defaultProps = {
+  currentFilter: "All"
+}
+TaskFilter.propTypes = {
+  onChangeHandler: PropTypes.func,
+  currentFilter: PropTypes.string
 }

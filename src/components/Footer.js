@@ -1,5 +1,7 @@
 import TaskFilter from "./TaskFilter";
 
+import PropTypes from 'prop-types'
+
 export default function Footer(props) {
   const { data, onChangeHandler, currentFilter, onClearCompleted }  = props;
   const onCount = (data) => {
@@ -15,4 +17,10 @@ export default function Footer(props) {
       <button className="clear-completed" onClick = {onClearCompleted}>Clear completed</button>
     </footer>
   );
+}
+Footer.propTypes = {
+  data: PropTypes.array,
+  onChangeHandler: PropTypes.func,
+  onClearCompleted: PropTypes.func,
+  currentFilter: PropTypes.string,
 }

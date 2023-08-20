@@ -1,9 +1,9 @@
 
 import Task from "./Task";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import PropTypes from 'prop-types'
+
 export default function TaskList(props) {
   const { onDeleted, onToggleDone, data, onToggleEdit, onEdit} = props;
-
 
 
   const elements = data.map((item) => {
@@ -12,8 +12,7 @@ export default function TaskList(props) {
       <Task
         {...itemProps}
         key={id}
-        date={formatDistanceToNow(new Date(), { addSuffix: true })}
-        data={item}
+        task={item}
         onDeleted={() => onDeleted(id)}
         onToggleDone={() => onToggleDone(id)}
         onToggleEdit={() =>  onToggleEdit(id)}
@@ -23,4 +22,12 @@ export default function TaskList(props) {
     );
   });
   return <ul className="todo-list">{elements}</ul>;
+}
+
+TaskList.propTypes = {
+  data: PropTypes.array.isRequired,
+  onToggleDone: PropTypes.func,
+  onDeleted: PropTypes.func,
+  onToggleEdit: PropTypes.func,
+  onEdit:PropTypes.func,
 }

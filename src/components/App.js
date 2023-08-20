@@ -3,6 +3,7 @@ import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 import Footer from "./Footer";
 
+
 export default function App() {
 
   
@@ -12,16 +13,16 @@ export default function App() {
   const onChangeHandler = (filter) => {
     setCurrentFilter(filter); 
   };
-  const [count, setCount] = useState(100);
-  
+  const [count, setCount] = useState(1);
 
   const createTask = (text) => {
     return {
       value: text,
       id: count,
       done: false,
-      editing:false
-    };
+      editing:false,
+      createDate: new Date()
+    }
   };
 
 
@@ -33,7 +34,6 @@ export default function App() {
     });
   };
 
-  App.defaultProps = {};
 
   const onToggleDone = (id) => {
     setData((p) => {
@@ -47,13 +47,11 @@ export default function App() {
   };
 
   const addItem = (text) => {
-    if(text !== ""){
       setCount((prev) => prev + 1);
       setData((prev) => {
         //console.log(prev);
         return [...prev, createTask(text)];
       });
-    }
   };
   
   const filteredTasks = data.filter((el) => {
@@ -85,10 +83,10 @@ export default function App() {
   const onEdit = (newValue,id) => {
     const idx = data.findIndex((el)=>el.id === id)
     const oldItem = data[idx]
-    const newItem = {...oldItem, value: newValue, editing: false}
+    const newItem = {...oldItem, value: newValue, editing: !oldItem.editing}
     const newData = data.toSpliced(idx,1,newItem)
     setData(newData)
-    console.log(data)
+    //console.log(data)
   }
   return (
     <section className="todoapp">
