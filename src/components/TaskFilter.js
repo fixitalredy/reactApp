@@ -1,34 +1,44 @@
-
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export default function TaskFilter(props) {
-  const { onChangeHandler, currentFilter } =  props;
-  
+  const { onChangeHandler, currentFilter } = props;
+
   const filters = [
-    { value: "All"},
-    { value: "Active"},
-    { value: "Completed"}
-  ]
+    { value: 'All' },
+    { value: 'Active' },
+    { value: 'Completed' },
+  ];
 
   const changeFilterHandler = (event) => {
-    onChangeHandler(event.target.textContent)
-  }
+    onChangeHandler(event.target.textContent);
+  };
 
   return (
-    <ul className="filters" onClick = {changeFilterHandler}>
-      {filters.map((el)=>{
-        return <li key = {el.value}>
-            <button className = { el.value === currentFilter ? 'selected' : null}>{el.value}</button>
-        </li>
-       })
-    }
-    </ul>
+    <div
+      role="menuitem"
+      tabIndex={0}
+      onClick={changeFilterHandler}
+      onKeyDown={changeFilterHandler}
+    >
+      <ul className="filters">
+        {filters.map((el) => (
+          <li key={el.value}>
+            <button
+              type="button"
+              className={el.value === currentFilter ? 'selected' : null}
+            >
+              {el.value}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 TaskFilter.defaultProps = {
-  currentFilter: "All"
-}
+  currentFilter: 'All',
+};
 TaskFilter.propTypes = {
-  onChangeHandler: PropTypes.func,
-  currentFilter: PropTypes.string
-}
+  onChangeHandler: PropTypes.func.isRequired,
+  currentFilter: PropTypes.string,
+};
