@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
 
