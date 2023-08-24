@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
 
@@ -7,8 +7,16 @@ export default function Task(props) {
     value: 'New Task',
   };
 
-  const { value, onDeleted, onToggleDone, task, onToggleEdit, onEdit, id } =
-    props;
+  const {
+    value,
+    onDeleted,
+    onToggleDone,
+    task,
+    onToggleEdit,
+    onEdit,
+    id,
+    onClose,
+  } = props;
 
   const [editValue, setEditValue] = useState(value);
 
@@ -19,8 +27,25 @@ export default function Task(props) {
     if (event.key === 'Enter') {
       event.preventDefault();
       onEdit(editValue, id);
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      onClose(id);
     }
   };
+  const closeHandler = (event) => {
+    if (task.editing && !event.target.closest('.editing')) {
+      event.preventDefault();
+      onClose(id);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('click', closeHandler);
+
+    return () => {
+      document.removeEventListener('click', closeHandler);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [task.editing]);
 
   return (
     <li className={task.done ? 'completed' : task.editing ? 'editing' : null}>
@@ -58,11 +83,11 @@ export default function Task(props) {
       </div>
       {task.editing ? (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-        <form onKeyDown={sumbitChange}>
+        <form className="form" onKeyDown={sumbitChange} onClick={closeHandler}>
           <input
             type="text"
             className="edit"
-            defaultValue={editValue}
+            defaultValue={value}
             onInput={changeTaskHandler}
           />
         </form>

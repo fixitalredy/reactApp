@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Task from './Task';
 
 export default function TaskList(props) {
-  const { onDeleted, onToggleDone, data, onToggleEdit, onEdit } = props;
+  const { onDeleted, onToggleDone, data, onToggleEdit, onEdit, onClose } =
+    props;
 
   const elements = data.map((item) => {
     const { id, ...itemProps } = item; // className = item.className см. в файле App.js 7стр.
@@ -18,6 +19,7 @@ export default function TaskList(props) {
         onToggleEdit={() => onToggleEdit(id)}
         onEdit={onEdit}
         id={id}
+        onClose={() => onClose(id)}
       />
     );
   });

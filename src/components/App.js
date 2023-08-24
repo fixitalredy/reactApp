@@ -23,8 +23,7 @@ export default function App() {
 
   const onDeleted = (id) => {
     setData((prev) => {
-      const idx = prev.findIndex((el) => el.id === id);
-      const newData = prev.toSpliced(idx, 1);
+      const newData = prev.filter((item) => item.id !== id);
       return newData;
     });
   };
@@ -59,6 +58,20 @@ export default function App() {
     setData((prev) => prev.filter((el) => !el.done));
   };
 
+  const onClose = (id) => {
+    setData((p) => {
+      const idx = p.findIndex((el) => el.id === id);
+      const oldItem = p[idx];
+      const newItem = {
+        ...oldItem,
+        editing: !oldItem.editing,
+        value: oldItem.value,
+      };
+      const endCopy = p.toSpliced(idx, 1, newItem);
+      // console.log(endCopy)
+      return endCopy;
+    });
+  };
   const onToggleEdit = (id) => {
     setData((p) => {
       const idx = p.findIndex((el) => el.id === id);
@@ -73,7 +86,11 @@ export default function App() {
   const onEdit = (newValue, id) => {
     const idx = data.findIndex((el) => el.id === id);
     const oldItem = data[idx];
-    const newItem = { ...oldItem, value: newValue, editing: !oldItem.editing };
+    const newItem = {
+      ...oldItem,
+      value: newValue,
+      editing: !oldItem.editing,
+    };
     const newData = data.toSpliced(idx, 1, newItem);
     setData(newData);
     // console.log(data)
@@ -91,6 +108,7 @@ export default function App() {
           onToggleDone={(id) => onToggleDone(id)}
           onToggleEdit={(id) => onToggleEdit(id)}
           onEdit={onEdit}
+          onClose={(id) => onClose(id)}
         />
         <Footer
           data={data}
