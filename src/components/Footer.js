@@ -9,6 +9,7 @@ export default function Footer(props) {
     const count = tasks.filter((el) => !el.done);
     return count.length;
   };
+  // 1
   return (
     <footer className="footer">
       <span className="todo-count">

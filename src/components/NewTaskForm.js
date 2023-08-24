@@ -13,7 +13,7 @@ export default function NewTaskForm(props) {
       setValue('');
     }
   };
-
+  // 1
   return (
     <input
       type="text"

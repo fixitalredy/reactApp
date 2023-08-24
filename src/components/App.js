@@ -20,7 +20,7 @@ export default function App() {
     editing: false,
     createDate: new Date(),
   });
-
+  // 1
   const onDeleted = (id) => {
     setData((prev) => {
       const newData = prev.filter((item) => item.id !== id);

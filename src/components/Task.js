@@ -95,7 +95,7 @@ export default function Task(props) {
     </li>
   );
 }
-
+// 1
 Task.propTypes = {
   value: PropTypes.string,
   task: PropTypes.instanceOf(Object).isRequired,
