@@ -33,7 +33,8 @@
       {
         "singleQuote": true,
         "parser": "flow",
-        "trailingComma": "es5"
+        "trailingComma": "es5",
+        "endOfLine": "auto"
       }
     ],
     "indent": ["error", 2],

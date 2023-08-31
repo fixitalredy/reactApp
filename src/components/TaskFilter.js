@@ -12,7 +12,7 @@ export default function TaskFilter(props) {
   const changeFilterHandler = (event) => {
     onChangeHandler(event.target.textContent);
   };
-  // 1
+  // 2
   return (
     <div
       role="menuitem"

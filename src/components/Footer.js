@@ -12,10 +12,7 @@ export default function Footer(props) {
   // 1
   return (
     <footer className="footer">
-      <span className="todo-count">
-        {onCount(data)}
-        items left
-      </span>
+      <span className="todo-count">{onCount(data)} items left</span>
       <TaskFilter
         data={data}
         onChangeHandler={onChangeHandler}

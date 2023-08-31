@@ -25,7 +25,7 @@ export default function TaskList(props) {
   });
   return <ul className="todo-list">{elements}</ul>;
 }
-// 1
+// 2
 TaskList.propTypes = {
   data: PropTypes.instanceOf(Array).isRequired,
   onToggleDone: PropTypes.func.isRequired,

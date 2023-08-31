@@ -13,12 +13,13 @@ export default function App() {
   };
   const [count, setCount] = useState(1);
 
-  const createTask = (text) => ({
+  const createTask = (text, min, sec) => ({
     value: text,
     id: count,
     done: false,
     editing: false,
     createDate: new Date(),
+    time: `${min}:${sec}`,
   });
   // 1
   const onDeleted = (id) => {
@@ -39,9 +40,9 @@ export default function App() {
     });
   };
 
-  const addItem = (text) => {
+  const addItem = (text, min, sec) => {
     setCount((prev) => prev + 1);
-    setData((prev) => [...prev, createTask(text)]);
+    setData((prev) => [...prev, createTask(text, min, sec)]);
   };
 
   const filteredTasks = data.filter((el) => {

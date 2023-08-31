@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
 
+import Timer from './Timer';
+
 export default function Task(props) {
   Task.defaultProps = {
     value: 'New Task',
@@ -16,6 +18,7 @@ export default function Task(props) {
     onEdit,
     id,
     onClose,
+    time,
   } = props;
 
   const [editValue, setEditValue] = useState(value);
@@ -58,14 +61,18 @@ export default function Task(props) {
           onChange={onToggleDone}
         />
         <label htmlFor={id}>
-          <span className="description">
+          <span className="title">
             {value === '' ? Task.defaultProps.value : value}
           </span>
-          <span className="created">
-            {formatDistanceToNow(task.createDate, {
-              addSuffix: true,
-              includeSeconds: true,
-            })}
+          <span className="description">
+            <Timer time={time} createDate={task.createDate} />
+            <span className="description">
+              {' '}
+              {formatDistanceToNow(task.createDate, {
+                addSuffix: true,
+                includeSeconds: true,
+              })}
+            </span>
           </span>
         </label>
         <button
