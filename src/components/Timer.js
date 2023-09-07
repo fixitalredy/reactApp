@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import FilterContext from './FilterContext';
+
 export default function Timer(props) {
   const { time } = props;
 
@@ -7,6 +9,7 @@ export default function Timer(props) {
   const seconds = time.split(':')[1];
   const [pause, setPause] = useState(true);
   const [[min, sec], setTimer] = useState([Number(minutes), Number(seconds)]);
+  const context = FilterContext;
 
   const startHandler = () => {
     setPause(false);
@@ -34,6 +37,9 @@ export default function Timer(props) {
       clearInterval(int);
     };
   });
+  useEffect(() => {
+    setTimer([Number(minutes), Number(seconds)]);
+  }, [context, minutes, seconds]);
 
   return (
     <>

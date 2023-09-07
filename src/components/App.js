@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import NewTaskForm from './NewTaskForm';
 import TaskList from './TaskList';
 import Footer from './Footer';
+import FilterContext from './FilterContext';
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -96,28 +97,31 @@ export default function App() {
     setData(newData);
     // console.log(data)
   };
+
   return (
-    <section className="todoapp">
-      <header className="header">
-        <h1>todos</h1>
-        <NewTaskForm onAddItem={addItem} />
-      </header>
-      <section className="main">
-        <TaskList
-          data={filteredTasks}
-          onDeleted={(id) => onDeleted(id)}
-          onToggleDone={(id) => onToggleDone(id)}
-          onToggleEdit={(id) => onToggleEdit(id)}
-          onEdit={onEdit}
-          onClose={(id) => onClose(id)}
-        />
-        <Footer
-          data={data}
-          onChangeHandler={onChangeHandler}
-          currentFilter={currentFilter}
-          onClearCompleted={onClearCompleted}
-        />
+    <FilterContext.Provider value={currentFilter}>
+      <section className="todoapp">
+        <header className="header">
+          <h1>todos</h1>
+          <NewTaskForm onAddItem={addItem} />
+        </header>
+        <section className="main">
+          <TaskList
+            data={filteredTasks}
+            onDeleted={(id) => onDeleted(id)}
+            onToggleDone={(id) => onToggleDone(id)}
+            onToggleEdit={(id) => onToggleEdit(id)}
+            onEdit={onEdit}
+            onClose={(id) => onClose(id)}
+          />
+          <Footer
+            data={data}
+            onChangeHandler={onChangeHandler}
+            currentFilter={currentFilter}
+            onClearCompleted={onClearCompleted}
+          />
+        </section>
       </section>
-    </section>
+    </FilterContext.Provider>
   );
 }
