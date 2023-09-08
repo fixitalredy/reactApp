@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useState } from 'react';
 
 import NewTaskForm from './NewTaskForm';
@@ -21,7 +22,28 @@ export default function App() {
     editing: false,
     createDate: new Date(),
     time: `${min}:${sec}`,
+    paused: true,
   });
+  const updateTimer = (min, sec, id, pause) => {
+    setData((p) => {
+      const idx = p.findIndex((el) => el.id === id);
+      const oldItem = p[idx];
+      const newItem = { ...oldItem, time: `${min}:${sec}`, paused: pause };
+      const endCopy = p.toSpliced(idx, 1, newItem);
+      // console.log(endCopy)
+      return endCopy;
+    });
+  };
+  const updateStop = (boolean, id) => {
+    setData((p) => {
+      const idx = p.findIndex((el) => el.id === id);
+      const oldItem = p[idx];
+      const newItem = { ...oldItem, paused: boolean };
+      const endCopy = p.toSpliced(idx, 1, newItem);
+      // console.log(endCopy)
+      return endCopy;
+    });
+  };
   // 1
   const onDeleted = (id) => {
     setData((prev) => {
@@ -29,7 +51,6 @@ export default function App() {
       return newData;
     });
   };
-
   const onToggleDone = (id) => {
     setData((p) => {
       const idx = p.findIndex((el) => el.id === id);
@@ -99,7 +120,7 @@ export default function App() {
   };
 
   return (
-    <FilterContext.Provider value={currentFilter}>
+    <FilterContext.Provider value={{ currentFilter, updateTimer, updateStop }}>
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>

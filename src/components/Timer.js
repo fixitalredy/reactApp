@@ -1,45 +1,51 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 
 import FilterContext from './FilterContext';
 
 export default function Timer(props) {
-  const { time } = props;
+  const { time, id, paused } = props;
 
   const minutes = time.split(':')[0];
   const seconds = time.split(':')[1];
-  const [pause, setPause] = useState(true);
   const [[min, sec], setTimer] = useState([Number(minutes), Number(seconds)]);
-  const context = FilterContext;
+  const context = useContext(FilterContext);
 
   const startHandler = () => {
-    setPause(false);
+    context.updateStop(false, id);
   };
+
   const stopHandler = () => {
-    setPause(true);
+    context.updateStop(true, id);
   };
-  const countTime = () => {
-    if (pause) return;
+  const countTime = useCallback(() => {
+    if (paused) return;
     if (min === 0 && sec === 0) {
-      setPause(true);
+      context.updateStop(true, id);
     } else if (sec !== 0) {
       setTimer([min, sec - 1]);
     } else if (min !== 0 && sec === 0) {
       setTimer([min - 1, 59]);
     }
-  };
-  useEffect(() => {
-    let int;
-    if (!pause) {
-      int = setInterval(() => countTime(), 1000);
-    }
+  }, [id, min, paused, sec]);
+  const timerIDRef = useRef(null);
 
-    return () => {
-      clearInterval(int);
-    };
-  });
   useEffect(() => {
-    setTimer([Number(minutes), Number(seconds)]);
-  }, [context, minutes, seconds]);
+    if (!paused) {
+      timerIDRef.current = setInterval(() => countTime(), 1000);
+      context.updateTimer(min, sec, id);
+    }
+    return () => {
+      clearInterval(timerIDRef.current);
+    };
+  }, [countTime, paused]);
 
   return (
     <>

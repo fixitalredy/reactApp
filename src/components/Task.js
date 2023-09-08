@@ -19,6 +19,7 @@ export default function Task(props) {
     id,
     onClose,
     time,
+    paused,
   } = props;
 
   const [editValue, setEditValue] = useState(value);
@@ -65,7 +66,12 @@ export default function Task(props) {
             {value === '' ? Task.defaultProps.value : value}
           </span>
           <span className="description">
-            <Timer time={time} createDate={task.createDate} />
+            <Timer
+              time={time}
+              createDate={task.createDate}
+              id={id}
+              paused={paused}
+            />
             <span className="description">
               {' '}
               {formatDistanceToNow(task.createDate, {
